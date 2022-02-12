@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+
+```{r}
+
+install.packages("dplyr")
+install.packages("tidyverse")
+install.packages("ggplot2")
+
+```
+
+```{r}
+# Import data set and convert to a data frame for easier: 
+raw_df = read.csv("Health Care Survey Data.csv")
+Data = as.data.frame(raw_df)
+Data
+```
+```{r}
+#inspect the data frame:
+dim.data.frame(Data) # observe that the data frame has 158 columns and 3537 records
+
+# Get the colomn names for the data
+colnames(Data)
+```
+```{r}
+# Data clean-Up operations:
+
+# Renaming of columns to more appropriate descriptions:
+Data2 = as_tibble(Data)
+colnames(Data2)
+
+
+
+Data3 = Data2 %>% rename('Depression Class' = Dep.Class, 'Gender' = ï..Gender, 'Depression Score' = Depression..D.,'Anxiety Class' = Anx.Class, 'Anxiety Score' = Anxiety..A., 'Burnout Score' = Burnout.)
+                         
+```
+
+
+```{r}
+# Obtain only the columns useful to the analysis:
+Data4 = Data3 %>%
+  select(Gender, Role, Country, Department, Teamwork.Climate, Job.Satisfaction, Stress.Recognition, Perceptions.of.Management, Working.Conditions, disengagement.sub.total, exhaustion.sub.total,`Burnout Score`, `Anxiety Score`, `Anxiety Class`, `Depression Score`, `Depression Class`)
+
+Data4
+
+```
+```{r}
+as.data.frame(Data4)
+
+```
+
+```{r}
+# Grouping the data:
+glimpse(Data4)
+
+```
+
+```{r}
+# Filter data:
+# Burnout Score by Gender:
+Male_Data = filter(Data4, Gender =='Male', Country == 'UK')
+Male_Data2 = filter(Data4, Gender =='Male', Country == 'Singapore')
+Female_Data = filter(Data4, Gender == 'Female', Country == 'UK')
+Female_Data2 = filter(Data4, Gender == 'Female', Country == 'Singapore')
+
+
+Male_Data
+Male_Data2
+Female_Data
+Female_Data2
+
+```
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
