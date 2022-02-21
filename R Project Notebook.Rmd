@@ -65,18 +65,189 @@ glimpse(Data4)
 ```{r}
 # Filter data:
 # Burnout Score by Gender:
-Male_Data = filter(Data4, Gender =='Male', Country == 'UK')
-Male_Data2 = filter(Data4, Gender =='Male', Country == 'Singapore')
+Male_Data = filter(Data4, Gender =='Male')
 Female_Data = filter(Data4, Gender == 'Female', Country == 'UK')
-Female_Data2 = filter(Data4, Gender == 'Female', Country == 'Singapore')
 
 
+Data4
 Male_Data
-Male_Data2
 Female_Data
-Female_Data2
+
 
 ```
+# Data Visualisation:
+```{r}
+install.packages("esquisse")
+
+```
+
+```{r}
+#squisse::esquisser()
+```
+
+# Data Visualisation:
+
+```{r}
+Data4 %>%
+ filter(Gender %in% c("Female", "Male")) %>%
+ filter(Role %in% c("Doctor", "AHP", "Nurse", "Non-clinical"
+)) %>%
+ ggplot() +
+  aes(x = Gender) +
+  geom_bar(position = "dodge", fill = "#BB320D") +
+  labs(title = "GENDER BY ROLE") +
+  coord_flip() +
+  theme_gray() +
+  theme(
+    plot.title = element_text(face = "bold",
+    hjust = 0.5),
+    plot.subtitle = element_text(face = "bold"),
+    plot.caption = element_text(face = "bold.italic",
+    hjust = 0.5),
+    axis.title.y = element_text(face = "bold.italic"),
+    axis.title.x = element_text(face = "bold.italic")
+  ) +
+  facet_wrap(vars(Role), scales = "free_x", nrow = 8L)
+```
+
+```{r}
+Data4 %>%
+ filter(Gender %in% c("Female", "Male")) %>%
+ filter(Role %in% c("Doctor", "AHP", "Nurse", "Non-clinical"
+)) %>%
+ ggplot() +
+  aes(x = Role, y = `Burnout Score`) +
+  geom_boxplot(fill = "#B22C08") +
+  geom_jitter() +
+  labs(title = "Burn out at role level") +
+  coord_flip() +
+  theme_dark() +
+  theme(
+    plot.title = element_text(size = 15L,
+    face = "bold.italic",
+    hjust = 0.5)
+  )
+ Insert code in script 
+```
+
+
+
+
+```{r}
+Data4 %>%
+ filter(Gender %in% c("Female", "Male")) %>%
+ ggplot() +
+  aes(x = Gender, y = `Burnout Score`) +
+  geom_boxplot(fill = "#942608") +
+  geom_jitter() +
+  labs(title = "BURN OUT STATS") +
+  coord_flip() +
+  theme_dark() +
+  theme(
+    plot.title = element_text(size = 15L,
+    face = "bold.italic",
+    hjust = 0.5),
+    plot.caption = element_text(face = "bold"),
+    axis.title.y = element_text(size = 13L,
+    face = "bold.italic"),
+    axis.title.x = element_text(size = 13L,
+    face = "bold.italic")
+  )
+```
+
+
+
+
+```{r}
+Female_Data %>%
+ filter(!(Role %in% c("Midwife", "HCA"))) %>%
+ ggplot() +
+  aes(x = `Burnout Score`) +
+  geom_density(adjust = 1L, fill = "Red") +
+  labs(title = "FEMALE DENSITY PLOT") +
+  theme_dark() +
+  theme(
+    plot.title = element_text(face = "bold.italic",
+    hjust = 0.5),
+    plot.caption = element_text(size = 14L,
+    face = "bold"),
+    axis.title.y = element_text(size =13L,
+    face = "bold"),
+    axis.title.x = element_text(size = 13L,
+    face = "bold")
+  ) +
+  facet_grid(vars(Role), vars())
+```
+```{r}
+Male_Data %>%
+ filter(!(Role %in% c("Porter", "Staff_cat"))) %>%
+ ggplot() +
+  aes(x = `Burnout Score`) +
+  geom_density(adjust = 1L, fill = "red") +
+  labs(title = "MALE DENSITY PLOT") +
+  theme_dark() +
+  theme(
+    plot.title = element_text(face = "bold.italic",
+    hjust = 0.5),
+    axis.title.y = element_text(size = 13L,
+    face = "bold"),
+    axis.title.x = element_text(size = 13L,
+    face = "bold.italic")
+  ) +
+  facet_grid(vars(Role), vars())
+```
+
+
+```{r}
+Data4 %>%
+ filter(Gender %in% c("Female", "Male")) %>%
+ ggplot() +
+  aes(x = `Burnout Score`, y = `Anxiety Score`) +
+  geom_jitter(size = 1.5) +
+  labs(title = "Burnt Out vs Anxiety") +
+  theme_gray() +
+  theme(
+    plot.title = element_text(size = 15L,
+    face = "bold.italic",
+    hjust = 0.5),
+    plot.subtitle = element_text(size = 13L,
+    face = "bold",
+    hjust = 0.5),
+    plot.caption = element_text(size = 13L,
+    face = "bold.italic"),
+    axis.title.y = element_text(size = 13L,
+    face = "bold"),
+    axis.title.x = element_text(size = 13L,
+    face = "bold")
+  ) +
+  facet_wrap(vars(Gender))
+```
+```{r}
+Data4 %>%
+ filter(Gender %in% c("Female", "Male")) %>%
+ ggplot() +
+  aes(x = `Burnout Score`) +
+  geom_density(adjust = 1.7, fill = "#C2330C") +
+  labs(
+    title = "Burnout,
+    Anxiety,
+    Depression",
+    subtitle = "Anxiety",
+    caption = "Depression"
+  ) +
+  theme_dark() +
+  theme(
+    plot.title = element_text(size = 15L,
+    face = "bold",
+    hjust = 0.5),
+    plot.subtitle = element_text(size = 12L,
+    face = "bold.italic"),
+    plot.caption = element_text(size = 11L,
+    face = "bold.italic")
+  ) +
+  facet_grid(vars(`Depression Class`), vars(`Anxiety Class`))
+```
+
 
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
